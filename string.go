@@ -23,7 +23,7 @@ func (s *String) StringPtr() *string {
 }
 
 func (s *String) Scan(src interface{}) error {
-	*s = src.(String)
+	*s = String(src.([]byte))
 	return nil
 }
 func (s String) Value() (driver.Value, error) {
