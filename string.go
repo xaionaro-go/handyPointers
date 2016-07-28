@@ -1,6 +1,10 @@
 package handyPointers
 
 
+import (
+	"database/sql/driver"
+)
+
 type String string;
 
 func (s *String) String() string {
@@ -23,10 +27,14 @@ func (s *String) Scan(src interface{}) error {
 	return nil
 }
 func (s String) Value() (driver.Value, error) {
-	return string(s).Value()
+	return []byte(s), nil
 }
 
 func (s *String) MarshalJSON() ([]byte, error) {
-	return s.StringPtr().MarshalJSON()
+	if (s == nil) {
+		return []byte("null"), nil
+	}
+
+	return []byte("\""+*s+"\""), nil
 }
 
